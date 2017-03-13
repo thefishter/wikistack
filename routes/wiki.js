@@ -6,12 +6,14 @@ const router = express.Router();
 module.exports  = router;
 
 router.get('/', function(req, res, next){
-  res.send('Getting all wiki pages!!!')
+  res.redirect('/');
 })
 
 
 router.post('/', function(req, res, next){
-  res.send('	submit a new page to the database')
+  //res.send('hello');
+  res.json(req.body);
+  //next();
 })
 
 router.get('/add', function(req, res, next){

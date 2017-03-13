@@ -6,13 +6,15 @@ const models = require('./models');
 var wikiRouter = require('./routes/wiki');
 
 
-
 var app = express();
 var router = express.Router();
 
 
-app.use('/wiki', wikiRouter);
-// or, in one line: app.use('/wiki', require('./routes/wiki'));
+
+app.use(bodyParser.urlencoded({
+    extended: false
+}))
+app.use(bodyParser.json())
 
 app.use(express.static('public'));
 
@@ -27,19 +29,20 @@ app.set('view engine', 'html');
 app.engine('html', nunjucks.render);
 
 
-app.use(bodyParser.urlencoded({
-    extended: false
-}))
-app.use(bodyParser.json())
+
+
+app.use('/wiki', wikiRouter);
+// or, in one line: app.use('/wiki', require('./routes/wiki'));
+
 
 
 // var server = app.listen(3001, function() {
 //     console.log("server set up");
 // })
 
-app.get("/", function(req, res, next) {
-	res.send("hello!");
-})
+// app.get("/", function(req, res, next) {
+// 	res.send("hello!");
+// })
 
 
 models.User.sync({})
