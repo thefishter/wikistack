@@ -26,12 +26,13 @@ var Page = db.define('page', {
 }, {
   getterMethods: {
     route: function(){
-      return '/wiki/' + this.urlTitle;
+      return '/wiki/' + this.getDataValue('urlTitle');
     }
   },
+  // hooks does not support 'this', getter does
   hooks: {
     beforeValidate: function(page, options) {
-      console.log(page);
+      //console.log(page);
       var title = page.title;
       page.urlTitle = function (title) {
         // if title is empty, generate random title
@@ -56,6 +57,8 @@ var User = db.define('user', {
     }
   }
 });
+
+Page.belongsTo(User, { as: 'author' });
 
 module.exports = {
   Page: Page,

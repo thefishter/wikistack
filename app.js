@@ -45,9 +45,9 @@ app.use('/wiki', wikiRouter);
 // })
 
 
-models.User.sync({})
+models.User.sync()
   .then(function () {
-    return models.Page.sync({})
+    return models.Page.sync()
   })
   .then(function () {
     app.listen(3001, function () {
