@@ -11,7 +11,6 @@ var Page = db.define('page', {
   urlTitle: {
     type: Sequelize.STRING,
     allowNull: false,
-
   },
   content: {
     type: Sequelize.TEXT,
@@ -29,10 +28,19 @@ var Page = db.define('page', {
     route: function(){
       return '/wiki/' + this.urlTitle;
     }
-
+  },
+  hooks: {
+    beforeValidate: function(page, options) {
+      console.log(page);
+      var title = page.title;
+      page.urlTitle = function (title) {
+        // if title is empty, generate random title
+        return title ? title.replace(/\s+/g, '_').replace(/\W/g, '')
+               : "New_article_" + Math.floor(Math.random() * 100000);
+      }(title);
+    }
   }
-}
-);
+});
 
 var User = db.define('user', {
   name: {
